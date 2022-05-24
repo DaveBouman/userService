@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: daveboumanuserservice 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: daveboumanuserservice
+  template:
+    metadata:
+      labels:
+        app: daveboumanuserservice 
+    spec:
+      containers:
+        - name: daveboumanuserservice 
+          image: semester6.azurecr.io/daveboumanuserservice
+          ports:
+          - containerPort: 3001
