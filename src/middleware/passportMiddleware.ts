@@ -12,7 +12,7 @@ passport.use(new GoogleStrategy(
     {
         clientID: "758144089634-teoht7idk1g4sb64mvcl1268h9bapfh3.apps.googleusercontent.com",
         clientSecret: "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",
-        callbackURL: "http://localhost:3001/api/v1/users/google/auth/callback",
+        callbackURL: "http://20.240.3.23:3001/api/v1/users/google/auth/callback",
     },
     async function (accessToken: string, refreshToken: string, profile: passportGoogle.Profile, done: any) {
 
