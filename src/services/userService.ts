@@ -35,8 +35,19 @@ class UserService extends BaseService<User> {
         entity.username = username;
         entity.password = cryp.update(password).digest('hex');
 
-
         return this.userRepository.save(entity);
+    }
+
+    override getList(skip: number, take: number): Promise<User[]> {
+        return this.userRepository.getList(skip, take);
+    }
+
+    async makeAdmin(username: string) {
+        return await this.userRepository.makeAdmin(username);
+    }
+
+    async deleteUser(username: string) {
+        return await this.userRepository.delete(username);
     }
 
     /*

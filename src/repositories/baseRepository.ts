@@ -3,7 +3,7 @@ import dataSource from "../dataSource";
 
 interface Base {
     id: any,
-    uuid: any 
+    uuid: any
 }
 
 export class BaseRepository<T> {
@@ -38,10 +38,6 @@ export class BaseRepository<T> {
 
     async save(entity: DeepPartial<T>) {
         return await this.repository.save(entity);
-    }
-
-    async delete(id: number) {
-        return await this.repository.delete(id);
     }
 
     async deleteMany(ids: number[]) {

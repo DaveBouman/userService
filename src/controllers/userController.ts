@@ -46,14 +46,17 @@ class UserController {
     //     });
     // }
 
-    // async getList(req: Request, res: Response) {
-    //     const entities = this.userService.getList();
+    async getList(req: Request, res: Response) {
+        const skip = req.query.skip as unknown as number;
+        const take = req.query.take as unknown as number;
+        const userService = new UserService();
+        const entities = await userService.getList(skip, take);
 
-    //     return res.send({
-    //         message: 'succesful',
-    //         entity: entities
-    //     });
-    // }
+        return res.send({
+            message: 'succesful',
+            entity: entities
+        });
+    }
 
     async auth(req: Request, res: Response): Promise<any> {
         try {
@@ -72,7 +75,7 @@ class UserController {
         if (req.user) {
             return res.status(200).json({
                 success: true,
-                message: 'succesfull',
+                message: 'succesful',
                 user: req.user,
                 cookies: req.cookies
             })
@@ -90,7 +93,7 @@ class UserController {
         const entity = await userService.create(username, password);
 
         return res.send({
-            message: 'succesfull',
+            message: 'succesful',
             entity: entity
         });
     }
@@ -108,7 +111,7 @@ class UserController {
         const entities = await userService.getFollowers(jwt.passport.user.username);
 
         return res.send({
-            message: 'succesfull',
+            message: 'succesful',
             entity: entities
         });
     }
@@ -121,7 +124,45 @@ class UserController {
         const entity = await userService.followUser(jwt.passport.user.id, username);
 
         return res.send({
-            message: 'succesfull',
+            message: 'succesful',
+            entity: entity
+        });
+    }
+
+    async delete(req: Request, res: Response) {
+        const userService = new UserService();
+        const username = req.query.username as string;
+        const jwt: any = jwt_decode(`${req.cookies['session.sig']}.${req.cookies["session"]}`);
+
+        if (jwt.passport.user.role !== 'admin') {
+            return res.send({
+                message: 'not admin',
+            });
+        }
+
+        const entity = await userService.deleteUser(username);
+
+        return res.send({
+            message: 'succesful',
+            entity: entity
+        });
+    }
+
+    async makeAdmin(req: Request, res: Response) {
+        const userService = new UserService();
+        const username = req.query.username as string;
+        const jwt: any = jwt_decode(`${req.cookies['session.sig']}.${req.cookies["session"]}`);
+
+        if (jwt.passport.user.role !== 'admin') {
+            return res.send({
+                message: 'not admin',
+            });
+        }
+
+        const entity = await userService.makeAdmin(username);
+
+        return res.send({
+            message: 'succesful',
             entity: entity
         });
     }
