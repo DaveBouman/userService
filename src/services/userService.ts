@@ -2,8 +2,10 @@ import User from "../entities/database/user";
 import UserRepository from "../repositories/userRepository";
 import BaseService from "./baseService";
 import KafkaService from "./kafkaService";
+import crypto from "crypto";
 
 class UserService extends BaseService<User> {
+
 
     constructor(private userRepository = new UserRepository(User),
     ) {
@@ -23,6 +25,17 @@ class UserService extends BaseService<User> {
 
     getAllUsersByQuery = async (name: string) => {
         return this.userRepository.getAllUsersByQuery(name);
+    }
+
+    create = async (username: string, password: string) => {
+        const cryp = crypto.createHmac("sha256", 'changetosalt')
+
+        const entity = new User;
+        entity.username = username;
+        entity.password = cryp.update(password).digest('hex');
+
+
+        return this.userRepository.create(entity);
     }
 
     /*

@@ -59,10 +59,10 @@ class UserController {
     }
 
     async create(req: Request, res: Response): Promise<any> {
-        const entity = this.userService.create(req.body) as unknown as User;
+        const entity = this.userService.create(req.body.username, req.body.password) as unknown as User;
 
         return res.send({
-            message: 'succesful',
+            message: 'succesfull',
             entity: entity
         });
     }

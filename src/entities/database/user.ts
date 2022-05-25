@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany } from "typeorm";
 import { BaseEntity } from './baseEntity';
 
 enum UserRole {
@@ -13,26 +13,25 @@ export default class User {
     id!: string;
 
     @Column({ nullable: true })
-    providerKey!: string;
-
-    @Column({ nullable: true })
-    name!: string;
+    username!: string;
 
     @Column({ nullable: true })
     password!: string;
 
     @Column({ nullable: true })
-    familyName!: string;
-
-    @Column({ nullable: true })
-    email!: string;
-
-    @Column({ nullable: true })
     imageUrl!: string;
 
     @Column({ nullable: true })
-    social!: string;
+    bio!: string;
 
-    @Column({})
+    @Column()
     role!: string;
+
+    @ManyToMany(() => User, following => following.follows, {
+        cascade: true
+    })
+    following!: number[]
+
+    @ManyToMany(() => User, follows => follows.following)
+    follows!: number[]
 }

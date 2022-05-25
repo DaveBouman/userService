@@ -7,5 +7,6 @@ const userController = new UserController();
 router.get("/test", userController.test);
 router.post("/", userController.create);
 router.get('/auth', userController.auth);
+router.post('/create', userController.create);
 
 export default router;
