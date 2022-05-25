@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable } from "typeorm";
 import { BaseEntity } from './baseEntity';
 
 enum UserRole {
@@ -28,10 +28,12 @@ export default class User {
     role!: string;
 
     @ManyToMany(() => User, following => following.follows, {
-        cascade: true
     })
-    following!: number[]
+    @JoinTable()
+    following!: string[]
 
     @ManyToMany(() => User, follows => follows.following)
-    follows!: number[]
+    @JoinTable()
+    follows!: string[]
 }
+

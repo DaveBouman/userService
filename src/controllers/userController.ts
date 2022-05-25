@@ -3,6 +3,7 @@ import passport from 'passport';
 import User from '../entities/database/user';
 import Logger from '../logger/logger';
 import UserService from '../services/userService';
+import jwt_decode from "jwt-decode";
 
 class UserController {
 
@@ -93,6 +94,38 @@ class UserController {
             entity: entity
         });
     }
+
+    signOut = (req: Request, res: Response) => {
+        req.logout();
+        delete req.session;
+        return res.status(301).redirect('http://localhost:3000');
+    };
+
+    async getFollowers(req: Request, res: Response) {
+        const userService = new UserService();
+        const jwt: any = jwt_decode(`${req.cookies['session.sig']}.${req.cookies["session"]}`);
+
+        const entities = await userService.getFollowers(jwt.passport.user.username);
+
+        return res.send({
+            message: 'succesfull',
+            entity: entities
+        });
+    }
+
+    async followUser(req: Request, res: Response) {
+        const userService = new UserService();
+        const username = req.body.username;
+        const jwt: any = jwt_decode(`${req.cookies['session.sig']}.${req.cookies["session"]}`);
+
+        const entity = await userService.followUser(jwt.passport.user.id, username);
+
+        return res.send({
+            message: 'succesfull',
+            entity: entity
+        });
+    }
+
 }
 
 export default UserController

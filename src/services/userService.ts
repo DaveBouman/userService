@@ -2,7 +2,7 @@ import User from "../entities/database/user";
 import UserRepository from "../repositories/userRepository";
 import BaseService from "./baseService";
 import KafkaService from "./kafkaService";
-import crypto from "crypto";
+import crypto, { timingSafeEqual } from "crypto";
 
 class UserService extends BaseService<User> {
 
@@ -18,6 +18,14 @@ class UserService extends BaseService<User> {
 
     getAllUsersByQuery = async (name: string) => {
         return this.userRepository.getAllUsersByQuery(name);
+    }
+
+    getFollowers = async (name: string) => {
+        return this.userRepository.getUserByName(name);
+    }
+
+    followUser = async (id: string, name: string) => {
+        return await this.userRepository.followUser(id, name);
     }
 
     create(username: string, password: string) {
