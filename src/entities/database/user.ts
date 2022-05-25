@@ -24,7 +24,7 @@ export default class User {
     @Column({ nullable: true })
     bio!: string;
 
-    @Column()
+    @Column({ nullable: true })
     role!: string;
 
     @ManyToMany(() => User, following => following.follows, {

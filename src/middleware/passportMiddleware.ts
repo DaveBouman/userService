@@ -15,16 +15,11 @@ passport.use(new LocalStrategy(async function verify(username: string, password:
         return cb(null, false, { message: 'Incorrect username or password.' });
     }
 
-    crypto.pbkdf2(password, 'changetosalt', 310000, 32, 'sha256', function (error, hashedPassword) {
-        if (error) {
-            return cb(error);
-        }
-
-        if (!crypto.timingSafeEqual(Buffer.from(user.password), hashedPassword)) {
-            return cb(null, false, { message: 'Incorrect username or password.' });
-        }
+    const cryp = crypto.createHmac("sha256", 'changetosalt')
+    if (cryp.update(password).digest('hex') == user.password) {
         return cb(null, user);
-    });
+    }
+
 }));
 
 passport.serializeUser((user: User, done) => {

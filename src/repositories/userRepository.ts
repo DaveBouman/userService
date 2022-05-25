@@ -4,26 +4,17 @@ import { BaseRepository } from './baseRepository';
 
 class UserRepository extends BaseRepository<User> {
 
-
-    getOneByEmail = async (email: string) => {
+    getUserByName = async (username: string) => {
         return await this.repository.findOne({
             where: {
-                email: email
+                username: username
             }
         })
     }
 
-    getUserByName = async (name: string) => {
-        return await this.repository.findOne({
-            where: {
-                name: name
-            }
-        })
-    }
-
-    getAllUsersByQuery = async(query: string) => {
+    getAllUsersByQuery = async (query: string) => {
         return await this.repository.find({
-            where: {name: Like(query)}
+            where: { username: Like(query) }
         })
     }
     /*

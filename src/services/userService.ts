@@ -6,28 +6,21 @@ import crypto from "crypto";
 
 class UserService extends BaseService<User> {
 
-
     constructor(private userRepository = new UserRepository(User),
     ) {
         super(User);
         // UserConsumer;
     }
 
-    getOneByEmail = async (email: string) => {
-        const entity = this.userRepository.getOneByEmail(email);
-
-        return entity;
-    }
-
-    getUserByName = async (name: string) => {
-        return this.userRepository.getUserByName(name);
+    getUserByName = async (username: string) => {
+        return this.userRepository.getUserByName(username);
     }
 
     getAllUsersByQuery = async (name: string) => {
         return this.userRepository.getAllUsersByQuery(name);
     }
 
-    create = async (username: string, password: string) => {
+    create(username: string, password: string) {
         const cryp = crypto.createHmac("sha256", 'changetosalt')
 
         const entity = new User;
@@ -35,7 +28,7 @@ class UserService extends BaseService<User> {
         entity.password = cryp.update(password).digest('hex');
 
 
-        return this.userRepository.create(entity);
+        return this.userRepository.save(entity);
     }
 
     /*

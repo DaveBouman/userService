@@ -1,16 +1,17 @@
 import { Request, Response } from 'express';
+import passport from 'passport';
 import User from '../entities/database/user';
 import Logger from '../logger/logger';
 import UserService from '../services/userService';
 
 class UserController {
 
-    constructor(private userService = new UserService()) { }
-
+    constructor() { }
     async getOneById(req: Request, res: Response) {
+        const userService = new UserService();
         const id = req.body.id;
 
-        const entity = this.userService.getOneById(id);
+        const entity = userService.getOneById(id);
 
         return res.send({
             message: 'successful',
@@ -24,6 +25,14 @@ class UserController {
             entity: 'test user'
         });
     }
+
+    logout = (req: Request, res: Response) => {
+        console.log('test');
+        console.log(req.user);
+        req.logout();
+        delete req.session;
+        return res.status(301).redirect('http://localhost:3000');
+    };
 
     // async getOneByEmail(req: Request, res: Response) {
     //     const email = req.body.email;
@@ -58,8 +67,26 @@ class UserController {
         }
     }
 
+    authSucces = (req: Request, res: Response) => {
+        if (req.user) {
+            return res.status(200).json({
+                success: true,
+                message: 'succesfull',
+                user: req.user,
+                cookies: req.cookies
+            })
+        }
+
+        return res.status(401).send('not authenticated');
+    };
+
     async create(req: Request, res: Response): Promise<any> {
-        const entity = this.userService.create(req.body.username, req.body.password) as unknown as User;
+        const userService = new UserService();
+
+        const username = req.body.username as string;
+        const password = req.body.password as string;
+
+        const entity = await userService.create(username, password);
 
         return res.send({
             message: 'succesfull',
