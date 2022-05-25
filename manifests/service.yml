@@ -6,5 +6,6 @@ spec:
     type: LoadBalancer
     ports:
     - port: 3001 
+      targetPort: 3002
     selector:
         app: daveboumanuserservice
