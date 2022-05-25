@@ -4,11 +4,11 @@ import { Kafka } from "kafkajs"
 import { DataSource } from "typeorm"
 
 export default new DataSource({
-    type: "postgres",
-    host: "postgres",
-    port: 5432,
-    username: "admin",
-    password: "admin",
+    type: "mssql",
+    host: "semester6databases.database.windows.net",
+    port: 1433,
+    username: "davebouman",
+    password: "W7BMZkn9H5cX9jQ",
     database: "userService",
     logging: false,
     synchronize: true,

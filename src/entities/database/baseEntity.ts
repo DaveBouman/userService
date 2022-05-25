@@ -12,7 +12,6 @@ export interface BaseEntity {
     version: number;
 }
 
-@Entity()
 export abstract class BaseEntity extends Base {
 
     @PrimaryGeneratedColumn()
