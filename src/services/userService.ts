@@ -12,8 +12,8 @@ class UserService extends BaseService<User> {
         // UserConsumer;
     }
 
-    getUserByName = async (username: string) => {
-        return this.userRepository.getUserByName(username);
+    getUserByUsername = async (username: string) => {
+        return this.userRepository.getUserByUsername(username);
     }
 
     getAllUsersByQuery = async (name: string) => {
@@ -26,6 +26,10 @@ class UserService extends BaseService<User> {
 
     followUser = async (id: string, name: string) => {
         return await this.userRepository.followUser(id, name);
+    }
+
+    unFollow = async (id: string, name: string) => {
+        return await this.userRepository.unFollow(id, name);
     }
 
     create(username: string, password: string) {
@@ -48,6 +52,10 @@ class UserService extends BaseService<User> {
 
     async deleteUser(username: string) {
         return await this.userRepository.delete(username);
+    }
+
+    async updateBio(id: string, bio: string) {
+        return await this.userRepository.updateBio(id, bio);
     }
 
     /*

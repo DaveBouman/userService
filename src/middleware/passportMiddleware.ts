@@ -9,7 +9,7 @@ import crypto from 'crypto';
 const userService = new UserService();
 
 passport.use(new LocalStrategy(async function verify(username: string, password: string, cb: Function) {
-    const user: User | null = await userService.getUserByName(username);
+    const user: User | null = await userService.getUserByUsername(username);
 
     if (user == null) {
         return cb(null, false, { message: 'Incorrect username or password.' });

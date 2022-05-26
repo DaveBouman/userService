@@ -21,19 +21,22 @@ export default class User {
     @Column({ nullable: true })
     imageUrl!: string;
 
-    @Column({ nullable: true })
+    @Column({ nullable: true, default: "Je hebt nog geen bio gemaakt" })
     bio!: string;
 
     @Column({ nullable: true, default: "user" })
     role!: string;
 
     @ManyToMany(() => User, following => following.follows, {
+        orphanedRowAction: 'delete'
     })
     @JoinTable()
-    following!: string[]
+    following!: User[]
 
-    @ManyToMany(() => User, follows => follows.following)
+    @ManyToMany(() => User, follows => follows.following, {
+        orphanedRowAction: 'delete'
+    })
     @JoinTable()
-    follows!: string[]
+    follows!: User[]
 }
 

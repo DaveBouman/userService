@@ -8,11 +8,11 @@ import jwt_decode from "jwt-decode";
 class UserController {
 
     constructor() { }
-    async getOneById(req: Request, res: Response) {
+    async getOneByUsername(req: Request, res: Response) {
         const userService = new UserService();
-        const id = req.body.id;
+        const username = req.query.username as string;
 
-        const entity = userService.getOneById(id);
+        const entity = await userService.getUserByUsername(username);
 
         return res.send({
             message: 'successful',
@@ -118,10 +118,23 @@ class UserController {
 
     async followUser(req: Request, res: Response) {
         const userService = new UserService();
-        const username = req.body.username;
+        const username = req.query.username as string;
         const jwt: any = jwt_decode(`${req.cookies['session.sig']}.${req.cookies["session"]}`);
 
         const entity = await userService.followUser(jwt.passport.user.id, username);
+
+        return res.send({
+            message: 'succesful',
+            entity: entity
+        });
+    }
+
+    async unFollow(req: Request, res: Response) {
+        const userService = new UserService();
+        const username = req.query.username as string;
+        const jwt: any = jwt_decode(`${req.cookies['session.sig']}.${req.cookies["session"]}`);
+
+        const entity = await userService.unFollow(jwt.passport.user.id, username);
 
         return res.send({
             message: 'succesful',
@@ -141,6 +154,19 @@ class UserController {
         }
 
         const entity = await userService.deleteUser(username);
+
+        return res.send({
+            message: 'succesful',
+            entity: entity
+        });
+    }
+
+    async updateBio(req: Request, res: Response) {
+        const userService = new UserService();
+        const bio = req.body.bio
+        const jwt: any = jwt_decode(`${req.cookies['session.sig']}.${req.cookies["session"]}`);
+
+        const entity = await userService.updateBio(jwt.passport.user.userId, bio);
 
         return res.send({
             message: 'succesful',

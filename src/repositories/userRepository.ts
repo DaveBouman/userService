@@ -1,16 +1,17 @@
-import { Like } from 'typeorm';
+import { Connection, Like } from 'typeorm';
 import User from '../entities/database/user';
 import { BaseRepository } from './baseRepository';
 
 class UserRepository extends BaseRepository<User> {
 
-    getUserByName = async (username: string) => {
-        return await this.repository.findOne({
+    getUserByUsername = async (username: string) => {
+        const entity = await this.repository.findOne({
             relations: ['following', 'follows'],
             where: {
                 username: username
             }
-        }) as User
+        })
+        return entity;
     }
 
     getAllUsersByQuery = async (query: string) => {
@@ -21,16 +22,36 @@ class UserRepository extends BaseRepository<User> {
 
     followUser = async (userId: string, followingName: string) => {
         let entity = await this.repository.findOne({
-            loadRelationIds: true,
+            relations: ['follows'],
             where: {
                 id: userId
             }
         }) as User
 
-        entity.following = [followingName];
+        let entity2 = await this.repository.findOne({
+            relations: ['follows'],
+            where: {
+                username: followingName
+            }
+        })
+
+        if (entity2 != null)
+            entity.follows.push(entity2);
 
         return await this.repository.save(entity);
     }
+
+    unFollow = async (userId: string, followingName: string) => {
+        let entity = await this.repository.findOne({
+            relations: ['follows'],
+            where: {
+                id: userId
+            }
+        }) as User;
+
+        return await this.repository.save(entity);
+    }
+
 
     override async getList(skip: number, take: number): Promise<User[]> {
         return await this.repository.find({
@@ -40,6 +61,19 @@ class UserRepository extends BaseRepository<User> {
                 username: "ASC"
             }
         });
+    }
+
+    updateBio = async (id: string, bio: string) => {
+        let entity = await this.repository.findOne({
+            loadRelationIds: true,
+            where: {
+                id: id
+            }
+        }) as User
+
+        entity.bio = bio;
+
+        return await this.repository.save(entity);
     }
 
     makeAdmin = async (username: string) => {
@@ -55,7 +89,17 @@ class UserRepository extends BaseRepository<User> {
     }
 
     delete = async (username: string) => {
-        return this.repository.delete({ username: username })
+        const entity = await this.repository.findOne({
+            relations: {
+                following: true,
+                follows: true
+            },
+            where: {
+                username: username
+            }
+        }) as User
+
+        return this.repository.delete(entity)
     }
 
     /*
