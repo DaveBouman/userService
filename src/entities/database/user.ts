@@ -31,12 +31,12 @@ export default class User {
         orphanedRowAction: 'delete'
     })
     @JoinTable()
-    following!: User[]
+    following!: User[];
 
     @ManyToMany(() => User, follows => follows.following, {
         orphanedRowAction: 'delete'
     })
     @JoinTable()
-    follows!: User[]
+    follows!: User[];
 }
 
