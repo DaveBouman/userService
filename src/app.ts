@@ -16,7 +16,7 @@ import cookieParser from 'cookie-parser';
 
 
 const corsOptions = {
-    origin: '*',
+    origin: 'http://localhost:3000',
     methods: "GET, PUT, DELETE, POST",
     credentials: true,
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
@@ -41,7 +41,7 @@ app.use(
     })
 );
 // app.use(morganMiddleware);
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(helmet());
 app.use(bodyParser.json({
     verify: (req, res, buf) => {
