@@ -48,15 +48,6 @@ app.use(bodyParser.json({
         req.rawBody = buf
     }
 }));
-var corsMiddleware = function (req: Request, res: Response, next: Function) {
-    res.header('Access-Control-Allow-Origin', 'localhost'); //replace localhost with actual host
-    res.header('Access-Control-Allow-Methods', 'OPTIONS, GET, PUT, PATCH, POST, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With, Authorization');
-
-    next();
-}
-
-app.use(corsMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/api/v1/users', routes);
