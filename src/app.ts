@@ -43,9 +43,9 @@ app.use(
 // app.use(morganMiddleware);
 // app.use(cors(corsOptions));
 app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'localhost:3000'); //replace localhost with actual host
-    res.header('Access-Control-Allow-Methods', 'OPTIONS, GET, PUT, PATCH, POST, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With, Authorization');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
 app.use(helmet());
