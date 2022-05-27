@@ -42,13 +42,14 @@ app.use(
 );
 // app.use(morganMiddleware);
 // app.use(cors(corsOptions));
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-    res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS, PATCH, HEAD");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, content-Type");
-    res.header("Access-Control-Allow-Credentials", true);
-    next();
-});
+// app.use(function (req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+//     res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS, PATCH, HEAD");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, content-Type");
+//     res.header("Access-Control-Allow-Credentials", true);
+//     next();
+// });
+app.use(cors())
 app.use(helmet());
 app.use(bodyParser.json({
     verify: (req, res, buf) => {
