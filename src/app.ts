@@ -41,7 +41,13 @@ app.use(
     })
 );
 // app.use(morganMiddleware);
-app.use(cors());
+// app.use(cors(corsOptions));
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'localhost'); //replace localhost with actual host
+    res.header('Access-Control-Allow-Methods', 'OPTIONS, GET, PUT, PATCH, POST, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With, Authorization');
+    next();
+});
 app.use(helmet());
 app.use(bodyParser.json({
     verify: (req, res, buf) => {
