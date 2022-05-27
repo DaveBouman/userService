@@ -19,7 +19,7 @@ router.delete('/followers', userController.unFollow)
 router.post('/signin',
     passport.authenticate('local', { failureRedirect: '/login' }),
     function (req: Request, res: Response) {
-        res.redirect('/');
+        res.send('succes login');
     });
 router.get('/signout', userController.signOut);
 router.post('/create', userController.create);
