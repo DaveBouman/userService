@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import passport from 'passport';
 import UserController from '../controllers/userController';
-
+import { Request, Response } from 'express';
 const router = Router();
 const userController = new UserController();
 
@@ -18,7 +18,7 @@ router.post('/followers', userController.followUser)
 router.delete('/followers', userController.unFollow)
 router.post('/signin',
     passport.authenticate('local', { failureRedirect: '/login' }),
-    function (req, res) {
+    function (req: Request, res: Response) {
         res.redirect('/');
     });
 router.get('/signout', userController.signOut);
