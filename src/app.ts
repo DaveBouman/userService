@@ -41,7 +41,7 @@ app.use(
     })
 );
 // app.use(morganMiddleware);
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(helmet());
 app.use(bodyParser.json({
     verify: (req, res, buf) => {
