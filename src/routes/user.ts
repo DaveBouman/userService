@@ -17,7 +17,7 @@ router.get('/followers', userController.getFollowers)
 router.post('/followers', userController.followUser)
 router.delete('/followers', userController.unFollow)
 router.post('/signin',
-    passport.authenticate('local', { failureRedirect: '/login' }),
+    passport.authenticate('local', { failureRedirect: '/' }),
     function (req, res) {
         res.redirect('/');
     });
