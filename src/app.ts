@@ -16,7 +16,7 @@ import cookieParser from 'cookie-parser';
 
 
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost',
     methods: "GET, PUT, DELETE, POST",
     credentials: true,
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
