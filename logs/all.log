@@ -369,3 +369,6 @@
 2022-05-27 14:04:03:43 [32minfo[39m: [32mData Source has been initialized![39m
 2022-05-27 14:10:20:1020 [32minfo[39m: [32mData Source has been initialized![39m
 2022-05-27 14:25:57:2557 [32minfo[39m: [32mData Source has been initialized![39m
+2022-05-27 14:53:04:534 [32minfo[39m: [32mData Source has been initialized![39m
+2022-05-28 10:34:54:3454 [31merror[39m: [31mError during Data Source initialization: Failed to connect to semester6databases.database.windows.net:1433 in 15000ms[39m
+2022-05-28 10:35:47:3547 [32minfo[39m: [32mData Source has been initialized![39m
